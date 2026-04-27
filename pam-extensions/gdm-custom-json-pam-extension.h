@@ -64,7 +64,7 @@ typedef struct {
 { \
         if (response != NULL) { \
                 if ((response)->json != NULL) { \
-                        memset ((response)->json, 0, strlen ((response)->json)); \
+                        gdm_pam_extension_zero_buffer ((response)->json, strlen ((response)->json)); \
                         free ((response)->json); \
                 } \
                 free (response); \

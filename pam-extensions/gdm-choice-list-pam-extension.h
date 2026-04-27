@@ -71,7 +71,7 @@ typedef struct {
 { \
         if (response != NULL) { \
                 if ((response)->key != NULL) { \
-                        memset ((response)->key, 0, strlen ((response)->key)); \
+                        gdm_pam_extension_zero_buffer ((response)->key, strlen ((response)->key)); \
                         free ((response)->key); \
                 } \
                 free (response); \

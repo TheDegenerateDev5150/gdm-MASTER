@@ -799,7 +799,7 @@ gdm_session_worker_process_pam_message (GdmSessionWorker          *worker,
                         *response = strndup (user_answer, PAM_MAX_RESP_SIZE - 1);
                 }
 
-                memset (user_answer, '\0', strlen (user_answer));
+                gdm_pam_extension_zero_buffer (user_answer, strlen (user_answer));
 
                 g_debug ("GdmSessionWorker: trying to get updated username");
 
@@ -896,7 +896,7 @@ gdm_session_worker_clear_pam_response (GdmSessionWorker         *worker,
         }
 #endif
 
-        memset (reply->resp, 0, strlen (reply->resp));
+        gdm_pam_extension_zero_buffer (reply->resp, strlen (reply->resp));
         free (reply->resp);
 }
 
