@@ -2605,6 +2605,9 @@ initialize (GdmSession *self,
         if (self->display_seat_id != NULL)
                 g_variant_builder_add_parsed (&details, "{'seat-id', <%s>}", self->display_seat_id);
 
+        if (self->session_id_of_caller != NULL)
+                g_variant_builder_add_parsed (&details, "{'session-id-of-caller', <%s>}", self->session_id_of_caller);
+
         g_debug ("GdmSession: Beginning initialization");
 
         conversation = find_conversation_by_name (self, service_name);
@@ -3327,6 +3330,7 @@ gdm_session_start_reauthentication (GdmSession *self,
         gdm_dbus_worker_call_start_reauthentication (conversation->worker_proxy,
                                                      (int) pid_of_caller,
                                                      (int) uid_of_caller,
+                                                     self->session_id_of_caller ? self->session_id_of_caller : "",
                                                      conversation->worker_cancellable,
                                                      (GAsyncReadyCallback) on_reauthentication_started_cb,
                                                      conversation);

@@ -1117,6 +1117,7 @@ gdm_manager_handle_open_reauthentication_channel (GdmDBusManager        *manager
                 return TRUE;
         } else if (session != NULL && gdm_session_is_running (session)) {
                 if (!gdm_session_is_frozen (session)) {
+                        g_object_set (session, "session-id-of-caller", session_id, NULL);
                         gdm_session_start_reauthentication (session, pid, uid);
                         g_hash_table_insert (self->open_reauthentication_requests,
                                              GINT_TO_POINTER (pid),
@@ -2068,20 +2069,20 @@ on_session_conversation_started (GdmSession *session,
 
         g_debug ("GdmManager: session conversation started for service %s on session", service_name);
 
-        if (g_strcmp0 (service_name, "gdm-autologin") != 0) {
-                g_debug ("GdmManager: ignoring session conversation since its not automatic login conversation");
-                return;
-        }
-
         display = get_display_for_user_session (session);
-
         if (display == NULL) {
                 g_debug ("GdmManager: conversation has no associated display");
                 return;
         }
 
-        enabled = get_automatic_login_details (manager, display, &username);
+        g_object_set (session, "session-id-of-caller", gdm_display_get_session_id (display), NULL);
 
+        if (g_strcmp0 (service_name, "gdm-autologin") != 0) {
+                g_debug ("GdmManager: ignoring session conversation since its not automatic login conversation");
+                return;
+        }
+
+        enabled = get_automatic_login_details (manager, display, &username);
         if (! enabled) {
                 return;
         }
