@@ -1,3 +1,51 @@
+51.alpha
+========
+
+* Compatibility with kmsconvt
+* Add checks to make sure PAM plugins don't drop fsuid privilges and break GDM
+* CI improvements
+* Reworked the way GDM constructs XDG_DATA_DIRS for its launch environment, so
+  that it will no longer hard-code /usr/share at a higher priority than
+  /usr/local/share. This behavior would prevent people from locally hacking
+  on gnome-shell with --prefix=/usr/local without also having to rebuild GDM
+  with the same prefix
+* Reworked conflicting session logic to use logind for enumeration. Previously,
+  GDM would only look for sessions it started itself, but that would cause it
+  to miss conflicting sessions started externally, such as those from ThinLinc
+  or TigerVNC
+* Fixed bug where plymouth never quit on headless or no-monitor systems, which
+  would prevent the system from ever reaching graphical.target
+* Added setting to change the fallback session. This is the session that gets
+  used whenever a user doesn't have a preferred session selected, or their
+  preferred session is unusable. Sysadmins can use this setting to change the
+  selected session for users that have never logged into the system before
+* Fixed bug where GDM would start X11 sessions with XDG_SESSION_TYPE=wayland
+* Fixed PAM handling code to notify PAM modules when we've switched user and
+  are about to exec the session leader. This fixes PAM modules like pam_cap.so
+  in its `defer` mode
+* Removed unnecessary `SetRemoteId` method from the remote display DBus API
+* Added setting to turn off local greeter sessions, for headless-only systems
+* Removed unused settings
+* Documented remote display DBus API
+* Documented GDM's settings
+* Dropped dconf override of org.gnome.desktop.session.session-name, and instead
+  gnome-session is now explicitly told to launch the GDM login screen UI even if
+  dconf overrides fail to get applied
+* Addressed warnings from Fedora's static analyzer
+* Fixed bug where the kernel's VT cursor may flicker during the transition
+  between graphical sessions (i.e. at log out)
+* Dropped ancient GDM docs, which have been out of date for a very long time and
+  are entirely inaccurate now.
+* Fixed some more misc. bugs: memory leaks, crashes, etc
+* Translation updates
+
+NOTE: In the previous 50.X release series, we removed GDM's ability to execute
+the various PreSession/PostSession/etc scripts as part of the X11 removal.
+However, it turned out that some people were using these hook points on Wayland,
+despite their limited functionality there. Still, the feature is gone for good,
+and I wanted to make sure it's listed in the changelog. See the issue for more
+details and context: https://gitlab.gnome.org/GNOME/gdm/-/work_items/1059
+
 50.0
 ====
 
