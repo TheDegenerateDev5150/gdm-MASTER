@@ -6,9 +6,6 @@
 #       dconf update
 #
 
-[org/gnome/desktop/session]
-session-name='gnome-login'
-
 [org/gnome/desktop/input-sources]
 show-all-sources=true
 
