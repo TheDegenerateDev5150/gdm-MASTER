@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=GNOME Greeter
 Comment=The default GNOME Greeter session
-Exec=gnome-session
+Exec=gnome-session --session gnome-login
 TryExec=gnome-session
 Type=Application
 DesktopNames=GNOME-Greeter:GNOME
