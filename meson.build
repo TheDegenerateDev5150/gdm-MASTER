@@ -267,7 +267,6 @@ subdir('po')
 if libcheck_dep.found()
   subdir('tests')
 endif
-subdir('docs')
 
 gnome.post_install(
   glib_compile_schemas: true,

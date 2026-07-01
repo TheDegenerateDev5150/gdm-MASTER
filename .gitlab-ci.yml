@@ -47,7 +47,6 @@ stages:
       plymouth-devel
       systemd
       systemd-devel
-      yelp-devel
 
 build-fedora-container:
   extends:
