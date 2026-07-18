@@ -1439,12 +1439,12 @@ have_pam_module (GdmAuthType auth_type)
 {
         g_autofree char *pam_service = NULL;
 
-        pam_service = g_strdup_printf (PAM_SERVICES_DIR "/gdm-%s",
+        pam_service = g_strdup_printf (PAM_CONFIG_SERVICES_DIR "/gdm-%s",
                 auth_type_to_string (auth_type));
 
         g_debug ("Checking for PAM profile “%s” existance", pam_service);
 
-        return g_file_test (pam_service, G_FILE_TEST_IS_REGULAR);
+        return g_file_test (pam_service, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR);
 }
 
 static gboolean
