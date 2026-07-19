@@ -1168,6 +1168,24 @@ gdm_session_worker_uninitialize_pam (GdmSessionWorker *worker,
         gdm_session_worker_set_state (worker, GDM_SESSION_WORKER_STATE_NONE);
 }
 
+static gchar *
+gdm_session_worker_resolve_service_file (const char *service)
+{
+        g_autofree char *service_path = NULL;
+
+        g_set_str (&service_path, g_build_filename (PAM_CONFIG_SERVICES_DIR, service, NULL));
+        if (g_file_test (service_path, G_FILE_TEST_EXISTS|G_FILE_TEST_IS_REGULAR)) {
+                return g_steal_pointer (&service_path);
+        }
+
+        g_set_str (&service_path, g_build_filename (PAM_SYS_SERVICES_DIR, service, NULL));
+        if (g_file_test (service_path, G_FILE_TEST_EXISTS|G_FILE_TEST_IS_REGULAR)) {
+                return g_steal_pointer (&service_path);
+        }
+
+        return NULL;
+}
+
 static gboolean
 gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
                                    const char         *service,
@@ -1182,6 +1200,7 @@ gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
         struct pam_conv        pam_conversation;
         int                    error_code;
         char tty_string[256];
+        g_autofree char *service_path = NULL;
 
         g_assert (service != NULL);
         g_assert (worker->pam_handle == NULL);
@@ -1190,6 +1209,25 @@ gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
                  service ? service : "(null)",
                  username ? username : "(null)",
                  seat_id ? seat_id : "(null)");
+
+        service_path = gdm_session_worker_resolve_service_file (service);
+        if (!service_path) {
+                g_debug ("GdmSessionWorker: PAM profile %s was not found", service);
+                g_set_error (error,
+                             GDM_SESSION_WORKER_ERROR,
+                             GDM_SESSION_WORKER_ERROR_SERVICE_UNAVAILABLE,
+                             "PAM profile %s was not found", service);
+
+                /* There is not a specific error for service not found, so we just
+                 * error out as the module is missing, although this is not really
+                 * used since no pam handle is set, thus it's just used to keep
+                 * the same "out" logic.
+                 */
+                error_code = PAM_MODULE_UNKNOWN;
+                goto out;
+        }
+
+        g_debug ("GdmSessionWorker: using PAM profile %s", service_path);
 
 #ifdef SUPPORTS_PAM_EXTENSIONS
         if (extensions != NULL) {
@@ -1201,7 +1239,7 @@ gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
         pam_conversation.appdata_ptr = worker;
 
         gdm_session_worker_start_auditor (worker);
-        error_code = pam_start (service,
+        error_code = pam_start (service_path,
                                 username,
                                 &pam_conversation,
                                 &worker->pam_handle);
