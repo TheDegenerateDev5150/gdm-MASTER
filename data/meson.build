@@ -96,7 +96,7 @@ pam_data_files = pam_data_files_map.get(default_pam_config, [])
 foreach _pam_filename : pam_data_files
   install_data('pam-@0@/@1@.pam'.format(default_pam_config, _pam_filename),
     rename: _pam_filename,
-    install_dir: pam_config_services_dir,
+    install_dir: pam_sys_services_dir,
   )
 endforeach
 
@@ -115,7 +115,7 @@ if default_pam_config == 'redhat'
       output: 'gdm-@0@-substack'.format(service),
       configuration: pam_conf,
       install: true,
-      install_dir: pam_config_services_dir,
+      install_dir: pam_sys_services_dir,
     )
   endforeach
 endif
