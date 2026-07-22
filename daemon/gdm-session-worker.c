@@ -2957,7 +2957,9 @@ gdm_session_worker_handle_start_program (GdmDBusWorker         *object,
 {
         GdmSessionWorker *worker = GDM_SESSION_WORKER (object);
         g_autoptr(GError) parse_error = NULL;
-        validate_state_change (worker, invocation, GDM_SESSION_WORKER_STATE_SESSION_STARTED);
+
+        if (!validate_state_change (worker, invocation, GDM_SESSION_WORKER_STATE_SESSION_STARTED))
+                return TRUE;
 
         if (worker->is_reauth_session) {
                 g_dbus_method_invocation_return_error (invocation,
