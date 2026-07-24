@@ -34,7 +34,7 @@ gdm_private_dbus_dir = (get_option('private-dbus-dir') != '')? get_option('priva
 gdm_dyn_home_dir = (get_option('dyn-home-dir') != '')? get_option('dyn-home-dir') : gdm_run_dir / 'home'
 pam_prefix = (get_option('pam-prefix') != '')? get_option('pam-prefix') : gdm_prefix
 pam_mod_dir = (get_option('pam-mod-dir') != '')? get_option('pam-mod-dir') : pam_prefix / get_option('libdir') / 'security'
-pam_sys_services_dir = pam_prefix / 'lib' / 'pam.d'
+pam_sys_services_dir = (get_option('pam-services-dir') != '')? get_option('pam-services-dir') : pam_prefix / 'lib' / 'pam.d'
 pam_config_services_dir = pam_prefix / get_option('sysconfdir') / 'pam.d'
 have_x11_support = get_option('x11-support')
 # Common variables
