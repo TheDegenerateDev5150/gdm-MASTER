@@ -23,7 +23,6 @@ gdmconfdir = (get_option('sysconfsubdir') == '')? gdm_prefix / get_option('sysco
 dmconfdir = (get_option('dmconfdir') != '')? get_option('dmconfdir') : gdm_prefix / get_option('sysconfdir') / 'dm'
 at_spi_registryd_dir = (get_option('at-spi-registryd-dir') != '')? get_option('at-spi-registryd-dir') : gdm_prefix / get_option('libexecdir')
 lang_config_file = (get_option('lang-file') != '')? get_option('lang-file') : gdm_prefix / get_option('sysconfdir') / 'locale.conf'
-pam_mod_dir = (get_option('pam-mod-dir') != '')? get_option('pam-mod-dir') : gdm_prefix / get_option('libdir') / 'security'
 dbus_sys_dir = (get_option('dbus-sys') != '')? get_option('dbus-sys') : get_option('sysconfdir') / 'dbus-1' / 'system.d'
 gdm_defaults_conf = (get_option('defaults-conf') != '')? get_option('defaults-conf') : gdm_prefix / gdm_datadir / 'defaults.conf'
 gdm_custom_conf = (get_option('custom-conf') != '')? get_option('custom-conf') : gdmconfdir / 'custom.conf'
@@ -34,6 +33,7 @@ working_dir = (get_option('working-dir') != '')? get_option('working-dir') : gdm
 gdm_private_dbus_dir = (get_option('private-dbus-dir') != '')? get_option('private-dbus-dir') : gdm_run_dir / 'dbus'
 gdm_dyn_home_dir = (get_option('dyn-home-dir') != '')? get_option('dyn-home-dir') : gdm_run_dir / 'home'
 pam_prefix = (get_option('pam-prefix') != '')? get_option('pam-prefix') : gdm_prefix
+pam_mod_dir = (get_option('pam-mod-dir') != '')? get_option('pam-mod-dir') : pam_prefix / get_option('libdir') / 'security'
 pam_sys_services_dir = pam_prefix / 'lib' / 'pam.d'
 pam_config_services_dir = pam_prefix / get_option('sysconfdir') / 'pam.d'
 have_x11_support = get_option('x11-support')
@@ -294,10 +294,10 @@ summary({
     'GDM Working dir': working_dir,
     'PAM Services dir': pam_sys_services_dir,
     'PAM Services config dir': pam_config_services_dir,
+    'PAM Modules dir': pam_mod_dir,
     'GNOME locale': gdm_prefix / get_option('localedir'),
     'AT SPI registryd': at_spi_registryd_dir,
     'Lang config file': lang_config_file,
-    'Pam MOD': pam_mod_dir,
   },
   section: 'Paths',
 )
