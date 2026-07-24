@@ -34,7 +34,7 @@ working_dir = (get_option('working-dir') != '')? get_option('working-dir') : gdm
 gdm_private_dbus_dir = (get_option('private-dbus-dir') != '')? get_option('private-dbus-dir') : gdm_run_dir / 'dbus'
 gdm_dyn_home_dir = (get_option('dyn-home-dir') != '')? get_option('dyn-home-dir') : gdm_run_dir / 'home'
 pam_prefix = (get_option('pam-prefix') != '')? get_option('pam-prefix') : get_option('sysconfdir')
-pam_profiles_dir = pam_prefix / 'pam.d'
+pam_services_dir = pam_prefix / 'pam.d'
 have_x11_support = get_option('x11-support')
 # Common variables
 config_h_dir = include_directories('.')
@@ -206,7 +206,7 @@ conf.set_quoted('GNOMELOCALEDIR', gdm_prefix / get_option('localedir'))
 conf.set_quoted('AT_SPI_REGISTRYD_DIR', at_spi_registryd_dir)
 conf.set_quoted('GDM_PID_FILE', gdm_pid_file)
 conf.set_quoted('LANG_CONFIG_FILE', lang_config_file)
-conf.set_quoted('PAM_PROFILES_DIR', pam_profiles_dir[0] == '/' ? pam_profiles_dir : '/' + pam_profiles_dir)
+conf.set_quoted('PAM_SERVICES_DIR', pam_services_dir[0] == '/' ? pam_services_dir : '/' + pam_services_dir)
 conf.set('HAVE_ADT', have_adt)
 conf.set('HAVE_LIBAUDIT', libaudit_dep.found())
 conf.set('HAVE_UTMP_H', have_utmp_header)
