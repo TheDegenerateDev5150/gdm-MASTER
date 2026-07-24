@@ -69,11 +69,13 @@ typedef struct {
 
 #define GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_FREE(response) \
 { \
-        if ((response)->key != NULL) { \
-                memset ((response)->key, 0, strlen ((response)->key)); \
-                free ((response)->key); \
+        if (response != NULL) { \
+                if ((response)->key != NULL) { \
+                        memset ((response)->key, 0, strlen ((response)->key)); \
+                        free ((response)->key); \
+                } \
+                free (response); \
         } \
-        free (response); \
 }
 
 #endif
