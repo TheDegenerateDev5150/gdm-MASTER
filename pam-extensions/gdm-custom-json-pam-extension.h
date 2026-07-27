@@ -36,17 +36,26 @@ typedef struct {
 #define GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE sizeof (GdmPamExtensionJSONProtocol)
 
 static inline void
+init_json_protocol_base (GdmPamExtensionJSONProtocol *protocol,
+                         const char                  *proto_name,
+                         unsigned int                 proto_version)
+{
+        size_t proto_len = strnlen (proto_name, sizeof (protocol->protocol_name) - 1);
+
+        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CUSTOM_JSON, &protocol->header.type);
+        protocol->header.length = htobe32 (GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE);
+        memcpy ((char *) protocol->protocol_name, proto_name, proto_len);
+        ((char *) protocol->protocol_name)[proto_len] = '\0';
+        protocol->version = proto_version;
+}
+
+static inline void
 gdm_pam_extension_custom_json_request_init (GdmPamExtensionJSONProtocol *request,
                                             const char                  *proto_name,
                                             unsigned int                 proto_version,
                                             const char                  *json_str)
 {
-        size_t proto_len = strnlen (proto_name, sizeof (request->protocol_name) - 1);
-        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CUSTOM_JSON, &request->header.type);
-        request->header.length = htobe32 (GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE);
-        memcpy ((char *)request->protocol_name, proto_name, proto_len);
-        ((char *)(request->protocol_name))[proto_len] = '\0';
-        request->version = proto_version;
+        init_json_protocol_base (request, proto_name, proto_version);
         request->json = (char *) json_str;
 }
 
@@ -55,12 +64,7 @@ gdm_pam_extension_custom_json_response_init (GdmPamExtensionJSONProtocol *respon
                                              const char                  *proto_name,
                                              unsigned int                 proto_version)
 {
-        size_t proto_len = strnlen (proto_name, sizeof (response->protocol_name) - 1);
-        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CUSTOM_JSON, &response->header.type);
-        response->header.length = htobe32 (GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE);
-        memcpy ((char *)response->protocol_name, proto_name, proto_len);
-        ((char *)(response->protocol_name))[proto_len] = '\0';
-        response->version = proto_version;
+        init_json_protocol_base (response, proto_name, proto_version);
         response->json = NULL;
 }
 

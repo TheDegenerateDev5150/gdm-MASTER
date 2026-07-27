@@ -81,27 +81,24 @@ gdm_pam_extension_message_truncated (const GdmPamExtensionMessage *msg)
 static inline bool
 gdm_pam_extension_message_invalid_type (const GdmPamExtensionMessage *msg)
 {
-        bool _invalid = true;
-        int _n = -1;
-        const char *_supported_extensions;
+        const char *env;
+        const char *p;
+        int count = 0;
 
-        _supported_extensions = getenv ("GDM_SUPPORTED_PAM_EXTENSIONS");
-        if (_supported_extensions != NULL) {
-                const char *_p = _supported_extensions;
-                while (*_p != '\0' && _n < UCHAR_MAX) {
-                        size_t _length;
-                        _length = strcspn (_p, " ");
-                        if (_length > 0)
-                                _n++;
-                        _p += _length;
-                        _length = strspn (_p, " ");
-                        _p += _length;
-                }
-                if (_n >= msg->type)
-                        _invalid = false;
+        env = getenv ("GDM_SUPPORTED_PAM_EXTENSIONS");
+        if (env == NULL)
+                return true;
+
+        p = env;
+        while (*p != '\0' && count <= UCHAR_MAX) {
+                size_t len = strcspn (p, " ");
+                if (len > 0)
+                        count++;
+                p += len;
+                p += strspn (p, " ");
         }
 
-        return _invalid;
+        return msg->type >= count;
 }
 
 static inline bool
@@ -116,33 +113,34 @@ static inline bool
 gdm_pam_extension_look_up_type (const char    *name,
                                 unsigned char *extension_type)
 {
-        bool _supported = false;
-        unsigned char _t = 0;
-        const char *_supported_extensions;
+        const char *env;
+        const char *p;
+        size_t index = 0;
 
-        _supported_extensions = getenv ("GDM_SUPPORTED_PAM_EXTENSIONS");
-        if (_supported_extensions != NULL) {
-                const char *_p = _supported_extensions;
-                while (*_p != '\0') {
-                        size_t _length;
-                        _length = strcspn (_p, " ");
-                        if (strncmp (_p, name, _length) == 0) {
-                                _supported = true;
-                                break;
-                        }
-                        _p += _length;
-                        _length = strspn (_p, " ");
-                        _p += _length;
-                        if (_t >= UCHAR_MAX) {
-                                break;
-                        }
-                        _t++;
+        env = getenv ("GDM_SUPPORTED_PAM_EXTENSIONS");
+        if (env == NULL)
+                return false;
+
+        p = env;
+        while (*p != '\0') {
+                size_t len = strcspn (p, " ");
+
+                if (len > 0 && strncmp (p, name, len) == 0 && name[len] == '\0') {
+                        if (extension_type != NULL)
+                                *extension_type = index;
+                        return true;
                 }
-                if (_supported && extension_type != NULL)
-                        *extension_type = _t;
+
+                p += len;
+                p += strspn (p, " ");
+
+                if (index >= UCHAR_MAX)
+                        break;
+                if (len > 0)
+                        index++;
         }
 
-        return _supported;
+        return false;
 }
 
 static inline bool
@@ -159,31 +157,34 @@ gdm_pam_extension_advertise_supported_extensions (char               *environmen
                                                   size_t              block_size,
                                                   const char * const *supported_extensions)
 {
-        size_t _size = 0;
-        unsigned char _t, _num_chunks;
-        char *_p;
+        const char *key = "GDM_SUPPORTED_PAM_EXTENSIONS";
+        size_t key_len = strlen (key);
+        size_t offset;
+        size_t index;
 
-        _p = environment_block;
-        _p = stpncpy (_p, "GDM_SUPPORTED_PAM_EXTENSIONS", block_size);
-        *_p = '\0';
-        _size += strlen (environment_block);
+        if (block_size < key_len + 2)
+                return;
 
-        for (_t = 0; supported_extensions[_t] != NULL && _t < UCHAR_MAX; _t++) {
-                size_t _next_chunk = strlen (supported_extensions[_t]) + strlen (" ");
-                if (_size + _next_chunk >= block_size)
+        memcpy (environment_block, key, key_len);
+        environment_block[key_len] = '=';
+        offset = key_len + 1;
+
+        for (index = 0; supported_extensions[index] != NULL && index < UCHAR_MAX; index++) {
+                size_t ext_len = strlen (supported_extensions[index]);
+                size_t needed = ext_len + (index > 0 ? 1 : 0);
+
+                if (offset + needed + 1 > block_size)
                         break;
-                _size += _next_chunk;
-        }
-        _num_chunks = _t;
 
-        if (_t != 0) {
-                _p = stpcpy (_p, "=");
-                for (_t = 0; _t < _num_chunks; _t++) {
-                        if (_t != 0)
-                                _p = stpcpy (_p, " ");
-                        _p = stpcpy (_p, supported_extensions[_t]);
-                }
-                *_p = '\0';
+                if (index > 0)
+                        environment_block[offset++] = ' ';
+
+                memcpy (environment_block + offset, supported_extensions[index], ext_len);
+                offset += ext_len;
+        }
+
+        if (index > 0) {
+                environment_block[offset] = '\0';
                 putenv (environment_block);
         }
 }
