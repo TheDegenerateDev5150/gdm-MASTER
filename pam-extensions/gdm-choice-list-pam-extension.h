@@ -17,8 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
  */
-#ifndef GDM_CHOICE_LIST_PAM_EXTENSION_H
-#define GDM_CHOICE_LIST_PAM_EXTENSION_H
+#pragma once
 
 #include "gdm-pam-extensions-common.h"
 
@@ -49,22 +48,47 @@ typedef struct {
 
 #define GDM_CHOICE_LIST_SIZE(num_items) (offsetof(GdmChoiceList, items) + (num_items) * sizeof (GdmChoiceListItems))
 #define GDM_PAM_EXTENSION_CHOICE_LIST_REQUEST_SIZE(num_items) (offsetof(GdmPamExtensionChoiceListRequest, list) + GDM_CHOICE_LIST_SIZE((num_items)))
-#define GDM_PAM_EXTENSION_CHOICE_LIST_REQUEST_INIT(request, title, num_items) \
-{ \
-        int _n = num_items; \
-        GDM_PAM_EXTENSION_LOOK_UP_TYPE (GDM_PAM_EXTENSION_CHOICE_LIST, &request->header.type); \
-        request->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_REQUEST_SIZE(_n)); \
-        request->prompt_message = title; \
-        request->list.number_of_items = _n; \
+
+static inline void
+gdm_pam_extension_choice_list_request_init (GdmPamExtensionChoiceListRequest *request,
+                                            const char                       *title,
+                                            int                               num_items)
+{
+        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST, &request->header.type);
+        request->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_REQUEST_SIZE(num_items));
+        request->prompt_message = (char *) title;
+        request->list.number_of_items = num_items;
 }
 
 #define GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE sizeof (GdmPamExtensionChoiceListResponse)
-#define GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_INIT(response) \
-{ \
-        GDM_PAM_EXTENSION_LOOK_UP_TYPE (GDM_PAM_EXTENSION_CHOICE_LIST, &response->header.type); \
-        response->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE); \
-        response->key = NULL; \
-}
-#define GDM_PAM_EXTENSION_REPLY_TO_CHOICE_LIST_RESPONSE(reply) ((GdmPamExtensionChoiceListResponse *) (void *) reply->resp)
 
+static inline void
+gdm_pam_extension_choice_list_response_init (GdmPamExtensionChoiceListResponse *response)
+{
+        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST, &response->header.type);
+        response->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE);
+        response->key = NULL;
+}
+
+static inline GdmPamExtensionChoiceListResponse *
+gdm_pam_extension_reply_to_choice_list_response (const struct pam_response *reply)
+{
+        return (GdmPamExtensionChoiceListResponse *) (void *) reply->resp;
+}
+
+static inline void
+gdm_pam_extension_choice_list_response_free (GdmPamExtensionChoiceListResponse *response)
+{
+        if (response == NULL)
+                return;
+
+        if (response->key != NULL) {
+               gdm_pam_extension_zero_buffer (response->key, strlen (response->key));
+               free (response->key);
+        }
+        free (response);
+}
+
+#ifdef __G_LIB_H__
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (GdmPamExtensionChoiceListResponse, gdm_pam_extension_choice_list_response_free)
 #endif
