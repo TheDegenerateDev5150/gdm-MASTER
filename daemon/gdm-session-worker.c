@@ -639,55 +639,55 @@ gdm_session_worker_process_extended_pam_message (GdmSessionWorker          *work
         GdmPamExtensionMessage *extended_message;
         gboolean res;
 
-        extended_message = GDM_PAM_EXTENSION_MESSAGE_FROM_PAM_MESSAGE (query);
+        extended_message = gdm_pam_extension_message_from_pam_message (query);
 
-        if (GDM_PAM_EXTENSION_MESSAGE_TRUNCATED (extended_message)) {
+        if (gdm_pam_extension_message_truncated (extended_message)) {
                 g_warning ("PAM service requested binary response for truncated query");
                 return FALSE;
         }
 
-        if (GDM_PAM_EXTENSION_MESSAGE_INVALID_TYPE (extended_message)) {
+        if (gdm_pam_extension_message_invalid_type (extended_message)) {
                 g_warning ("PAM service requested binary response for unadvertised query type");
                 return FALSE;
         }
 
-        if (GDM_PAM_EXTENSION_MESSAGE_MATCH (extended_message, worker->extensions, GDM_PAM_EXTENSION_CHOICE_LIST)) {
+        if (gdm_pam_extension_message_match (extended_message, worker->extensions, GDM_PAM_EXTENSION_CHOICE_LIST)) {
+                g_autoptr(GdmPamExtensionChoiceListResponse) list_response = NULL;
                 GdmPamExtensionChoiceListRequest *list_request = (GdmPamExtensionChoiceListRequest *) extended_message;
-                GdmPamExtensionChoiceListResponse *list_response = malloc (GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE);
+
+                list_response = malloc (GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE);
                 if (list_response == NULL)
                         return FALSE;
 
                 g_debug ("GdmSessionWorker: received extended pam message '%s'", GDM_PAM_EXTENSION_CHOICE_LIST);
 
-                GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_INIT (list_response);
+                gdm_pam_extension_choice_list_response_init (list_response);
 
                 res = gdm_session_worker_process_choice_list_request (worker, list_request, list_response);
 
-                if (! res) {
-                        GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_FREE (list_response);
+                if (!res)
                         return FALSE;
-                }
 
-                *response = GDM_PAM_EXTENSION_MESSAGE_TO_PAM_REPLY (g_steal_pointer (&list_response));
+                *response = gdm_pam_extension_message_to_pam_reply (g_steal_pointer (&list_response));
                 return TRUE;
-        } else if (GDM_PAM_EXTENSION_MESSAGE_MATCH (extended_message, worker->extensions, GDM_PAM_EXTENSION_CUSTOM_JSON)) {
+        } else if (gdm_pam_extension_message_match (extended_message, worker->extensions, GDM_PAM_EXTENSION_CUSTOM_JSON)) {
+                g_autoptr(GdmPamExtensionJSONProtocol) json_response = NULL;
                 GdmPamExtensionJSONProtocol *json_request = (GdmPamExtensionJSONProtocol *) extended_message;
-                GdmPamExtensionJSONProtocol *json_response = malloc (GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE);
+
+                json_response = malloc (GDM_PAM_EXTENSION_CUSTOM_JSON_SIZE);
                 if (json_response == NULL)
                         return FALSE;
 
                 g_debug ("GdmSessionWorker: received extended pam message '%s'", GDM_PAM_EXTENSION_CUSTOM_JSON);
 
-                GDM_PAM_EXTENSION_CUSTOM_JSON_RESPONSE_INIT (json_response,
-                                                              json_request->protocol_name,
-                                                              json_request->version);
+                gdm_pam_extension_custom_json_response_init (json_response,
+                                                             json_request->protocol_name,
+                                                             json_request->version);
 
-                if (!gdm_session_worker_process_custom_json_protocol (worker, json_request, json_response)) {
-                        GDM_PAM_EXTENSION_CUSTOM_JSON_RESPONSE_FREE (json_response);
+                if (!gdm_session_worker_process_custom_json_protocol (worker, json_request, json_response))
                         return FALSE;
-                }
 
-                *response = GDM_PAM_EXTENSION_MESSAGE_TO_PAM_REPLY (g_steal_pointer (&json_response));
+                *response = gdm_pam_extension_message_to_pam_reply (g_steal_pointer (&json_response));
                 return TRUE;
         } else {
                 g_debug ("GdmSessionWorker: received extended pam message of unknown type %u", (unsigned int) extended_message->type);
@@ -881,14 +881,14 @@ gdm_session_worker_clear_pam_response (GdmSessionWorker         *worker,
 #ifdef SUPPORTS_PAM_EXTENSIONS
         if (message->msg_style == PAM_BINARY_PROMPT) {
                 GdmPamExtensionMessage *extended_message;
-                extended_message = GDM_PAM_EXTENSION_MESSAGE_FROM_PAM_MESSAGE (message);
+                extended_message = gdm_pam_extension_message_from_pam_message (message);
 
-                if (GDM_PAM_EXTENSION_MESSAGE_MATCH (extended_message, worker->extensions, GDM_PAM_EXTENSION_CHOICE_LIST)) {
-                        GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_FREE (
-                                GDM_PAM_EXTENSION_REPLY_TO_CHOICE_LIST_RESPONSE (reply));
-                } else if (GDM_PAM_EXTENSION_MESSAGE_MATCH (extended_message, worker->extensions, GDM_PAM_EXTENSION_CUSTOM_JSON)) {
-                        GDM_PAM_EXTENSION_CUSTOM_JSON_RESPONSE_FREE (
-                                GDM_PAM_EXTENSION_REPLY_TO_CUSTOM_JSON_RESPONSE (reply));
+                if (gdm_pam_extension_message_match (extended_message, worker->extensions, GDM_PAM_EXTENSION_CHOICE_LIST)) {
+                        gdm_pam_extension_choice_list_response_free (
+                                gdm_pam_extension_reply_to_choice_list_response (reply));
+                } else if (gdm_pam_extension_message_match (extended_message, worker->extensions, GDM_PAM_EXTENSION_CUSTOM_JSON)) {
+                        gdm_pam_extension_custom_json_response_free (
+                                gdm_pam_extension_reply_to_custom_json_response (reply));
                 } else {
                         free (reply->resp);
                 }
@@ -1260,7 +1260,9 @@ gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
 
 #ifdef SUPPORTS_PAM_EXTENSIONS
         if (extensions != NULL) {
-                GDM_PAM_EXTENSION_ADVERTISE_SUPPORTED_EXTENSIONS (gdm_pam_extension_environment_block, extensions);
+                gdm_pam_extension_advertise_supported_extensions (gdm_pam_extension_environment_block,
+                                                                  sizeof (gdm_pam_extension_environment_block),
+                                                                  extensions);
         }
 #endif
 
