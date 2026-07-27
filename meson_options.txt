@@ -13,6 +13,7 @@ option('lang-file', type: 'string', value: '', description: 'File containing def
 option('libaudit', type: 'feature', value: 'auto', description: 'Add Linux audit support.')
 option('logind-provider', type: 'combo', choices: ['systemd', 'elogind'], value: 'systemd', description: 'Which logind library to use.')
 option('log-dir', type: 'string', value: '/var/log/gdm', description: 'Log directory.')
+option('pam-services-dir', type: 'string', value: '', description: 'Directory to install PAM services in.')
 option('pam-mod-dir', type: 'string', value: '', description: 'Directory to install PAM modules in.')
 option('pam-prefix', type: 'string', value: '', description: 'Specify where PAM files go.')
 option('pid-file', type: 'string', value: '', description: 'Pid file.')

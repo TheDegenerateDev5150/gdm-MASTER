@@ -23,7 +23,6 @@ gdmconfdir = (get_option('sysconfsubdir') == '')? gdm_prefix / get_option('sysco
 dmconfdir = (get_option('dmconfdir') != '')? get_option('dmconfdir') : gdm_prefix / get_option('sysconfdir') / 'dm'
 at_spi_registryd_dir = (get_option('at-spi-registryd-dir') != '')? get_option('at-spi-registryd-dir') : gdm_prefix / get_option('libexecdir')
 lang_config_file = (get_option('lang-file') != '')? get_option('lang-file') : gdm_prefix / get_option('sysconfdir') / 'locale.conf'
-pam_mod_dir = (get_option('pam-mod-dir') != '')? get_option('pam-mod-dir') : gdm_prefix / get_option('libdir') / 'security'
 dbus_sys_dir = (get_option('dbus-sys') != '')? get_option('dbus-sys') : get_option('sysconfdir') / 'dbus-1' / 'system.d'
 gdm_defaults_conf = (get_option('defaults-conf') != '')? get_option('defaults-conf') : gdm_prefix / gdm_datadir / 'defaults.conf'
 gdm_custom_conf = (get_option('custom-conf') != '')? get_option('custom-conf') : gdmconfdir / 'custom.conf'
@@ -33,8 +32,10 @@ gdm_pid_file = (get_option('pid-file') != '')? get_option('pid-file') : gdm_run_
 working_dir = (get_option('working-dir') != '')? get_option('working-dir') : gdm_prefix / get_option('localstatedir') / 'lib' / 'gdm'
 gdm_private_dbus_dir = (get_option('private-dbus-dir') != '')? get_option('private-dbus-dir') : gdm_run_dir / 'dbus'
 gdm_dyn_home_dir = (get_option('dyn-home-dir') != '')? get_option('dyn-home-dir') : gdm_run_dir / 'home'
-pam_prefix = (get_option('pam-prefix') != '')? get_option('pam-prefix') : get_option('sysconfdir')
-pam_profiles_dir = pam_prefix / 'pam.d'
+pam_prefix = (get_option('pam-prefix') != '')? get_option('pam-prefix') : gdm_prefix
+pam_mod_dir = (get_option('pam-mod-dir') != '')? get_option('pam-mod-dir') : pam_prefix / get_option('libdir') / 'security'
+pam_sys_services_dir = (get_option('pam-services-dir') != '')? get_option('pam-services-dir') : pam_prefix / 'lib' / 'pam.d'
+pam_config_services_dir = pam_prefix / get_option('sysconfdir') / 'pam.d'
 have_x11_support = get_option('x11-support')
 # Common variables
 config_h_dir = include_directories('.')
@@ -206,7 +207,8 @@ conf.set_quoted('GNOMELOCALEDIR', gdm_prefix / get_option('localedir'))
 conf.set_quoted('AT_SPI_REGISTRYD_DIR', at_spi_registryd_dir)
 conf.set_quoted('GDM_PID_FILE', gdm_pid_file)
 conf.set_quoted('LANG_CONFIG_FILE', lang_config_file)
-conf.set_quoted('PAM_PROFILES_DIR', pam_profiles_dir[0] == '/' ? pam_profiles_dir : '/' + pam_profiles_dir)
+conf.set_quoted('PAM_SYS_SERVICES_DIR', pam_sys_services_dir[0] == '/' ? pam_sys_services_dir : '/' + pam_sys_services_dir)
+conf.set_quoted('PAM_CONFIG_SERVICES_DIR', pam_config_services_dir[0] == '/' ? pam_config_services_dir : '/' + pam_config_services_dir)
 conf.set('HAVE_ADT', have_adt)
 conf.set('HAVE_LIBAUDIT', libaudit_dep.found())
 conf.set('HAVE_UTMP_H', have_utmp_header)
@@ -290,10 +292,12 @@ summary({
     'GDM Runtime config': gdm_runtime_conf,
     'GDM Session default path': get_option('default-path'),
     'GDM Working dir': working_dir,
+    'PAM Services dir': pam_sys_services_dir,
+    'PAM Services config dir': pam_config_services_dir,
+    'PAM Modules dir': pam_mod_dir,
     'GNOME locale': gdm_prefix / get_option('localedir'),
     'AT SPI registryd': at_spi_registryd_dir,
     'Lang config file': lang_config_file,
-    'Pam MOD': pam_mod_dir,
   },
   section: 'Paths',
 )

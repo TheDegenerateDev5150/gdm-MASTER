@@ -1437,14 +1437,24 @@ create_cmd_args (int argc, gchar **argv, GdmConfigCommand command)
 static gboolean
 have_pam_module (GdmAuthType auth_type)
 {
-        g_autofree char *pam_profile = NULL;
+        g_autofree char *pam_service = NULL;
+        g_autofree char *pam_service_name = NULL;
 
-        pam_profile = g_strdup_printf(PAM_PROFILES_DIR "/gdm-%s",
-                auth_type_to_string(auth_type));
+        pam_service_name = g_strdup_printf ("/gdm-%s",
+                                            auth_type_to_string (auth_type));
+        pam_service = g_build_filename (PAM_CONFIG_SERVICES_DIR, pam_service_name, NULL);
 
-        g_debug ("Checking for PAM profile “%s” existance", pam_profile);
+        g_debug ("Checking for PAM profile “%s” existence", pam_service);
 
-        return g_file_test (pam_profile, G_FILE_TEST_IS_REGULAR);
+        if (g_file_test (pam_service, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+                return TRUE;
+        }
+
+        g_set_str (&pam_service, g_build_filename (PAM_SYS_SERVICES_DIR, pam_service_name, NULL));
+
+        g_debug ("Checking for PAM profile “%s” existence", pam_service);
+
+        return g_file_test (pam_service, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR);
 }
 
 static gboolean
