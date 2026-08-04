@@ -30,6 +30,7 @@
     <method name="StartReauthentication">
       <arg name="pid_of_caller" direction="in" type="i"/>
       <arg name="uid_of_caller" direction="in" type="i"/>
+      <arg name="session_id_of_caller" direction="in" type="s"/>
       <arg name="address" direction="out" type="s"/>
     </method>
 

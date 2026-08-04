@@ -134,6 +134,7 @@ struct _GdmSession
         GStrv                supported_session_types;
 
         char                *remote_id;
+        char                *session_id_of_caller;
 
         guint32              is_program_session : 1;
         guint32              display_is_initial : 1;
@@ -155,6 +156,7 @@ enum {
         PROP_CONVERSATION_ENVIRONMENT,
         PROP_SUPPORTED_SESSION_TYPES,
         PROP_REMOTE_ID,
+        PROP_SESSION_ID_OF_CALLER,
 };
 
 enum {
@@ -2603,6 +2605,9 @@ initialize (GdmSession *self,
         if (self->display_seat_id != NULL)
                 g_variant_builder_add_parsed (&details, "{'seat-id', <%s>}", self->display_seat_id);
 
+        if (self->session_id_of_caller != NULL)
+                g_variant_builder_add_parsed (&details, "{'session-id-of-caller', <%s>}", self->session_id_of_caller);
+
         g_debug ("GdmSession: Beginning initialization");
 
         conversation = find_conversation_by_name (self, service_name);
@@ -3325,6 +3330,7 @@ gdm_session_start_reauthentication (GdmSession *self,
         gdm_dbus_worker_call_start_reauthentication (conversation->worker_proxy,
                                                      (int) pid_of_caller,
                                                      (int) uid_of_caller,
+                                                     self->session_id_of_caller ? self->session_id_of_caller : "",
                                                      conversation->worker_cancellable,
                                                      (GAsyncReadyCallback) on_reauthentication_started_cb,
                                                      conversation);
@@ -3630,6 +3636,14 @@ set_remote_id (GdmSession *self,
 }
 
 static void
+set_session_id_of_caller (GdmSession *self,
+                          const char *session_id_of_caller)
+{
+        g_free (self->session_id_of_caller);
+        self->session_id_of_caller = g_strdup (session_id_of_caller);
+}
+
+static void
 gdm_session_set_property (GObject      *object,
                           guint         prop_id,
                           const GValue *value,
@@ -3672,6 +3686,9 @@ gdm_session_set_property (GObject      *object,
                 break;
         case PROP_REMOTE_ID:
                 set_remote_id (self, g_value_get_string (value));
+                break;
+        case PROP_SESSION_ID_OF_CALLER:
+                set_session_id_of_caller (self, g_value_get_string (value));
                 break;
         default:
                 G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -3723,6 +3740,9 @@ gdm_session_get_property (GObject    *object,
         case PROP_REMOTE_ID:
                 g_value_set_string (value, self->remote_id);
                 break;
+        case PROP_SESSION_ID_OF_CALLER:
+                g_value_set_string (value, self->session_id_of_caller);
+                break;
         default:
                 G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
                 break;
@@ -3761,6 +3781,9 @@ gdm_session_dispose (GObject *object)
 
         g_strfreev (self->conversation_environment);
         self->conversation_environment = NULL;
+
+        g_free (self->session_id_of_caller);
+        self->session_id_of_caller = NULL;
 
         if (self->worker_server != NULL) {
                 g_dbus_server_stop (self->worker_server);
@@ -4143,6 +4166,14 @@ gdm_session_class_init (GdmSessionClass *session_class)
                                          g_param_spec_string ("remote-id",
                                                               "remote id",
                                                               "remote id",
+                                                              NULL,
+                                                              G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS));
+
+        g_object_class_install_property (object_class,
+                                         PROP_SESSION_ID_OF_CALLER,
+                                         g_param_spec_string ("session-id-of-caller",
+                                                              "session id of caller",
+                                                              "session id of caller",
                                                               NULL,
                                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS));
 

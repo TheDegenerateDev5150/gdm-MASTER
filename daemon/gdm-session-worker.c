@@ -113,6 +113,8 @@
 #define RELEASE_DISPLAY_SIGNAL (SIGRTMAX)
 #define ACQUIRE_DISPLAY_SIGNAL (SIGRTMAX - 1)
 
+#define GDM_AUTH_SESSION_ID "GDM_AUTH_SESSION_ID"
+
 typedef struct
 {
         GdmSessionWorker *worker;
@@ -142,6 +144,7 @@ struct _GdmSessionWorker
         char             *username;
         char             *log_file;
         char             *session_id;
+        char             *session_id_of_caller;
         uid_t             uid;
         gid_t             gid;
         gboolean          password_is_required;
@@ -1338,6 +1341,10 @@ gdm_session_worker_initialize_pam (GdmSessionWorker   *worker,
                 gdm_session_worker_set_environment_variable (worker, "XDG_SESSION_CLASS", "greeter");
         }
 
+        if (worker->session_id_of_caller != NULL) {
+                setenv (GDM_AUTH_SESSION_ID, worker->session_id_of_caller, 1);
+        }
+
         g_debug ("GdmSessionWorker: state SETUP_COMPLETE");
         gdm_session_worker_set_state (worker, GDM_SESSION_WORKER_STATE_SETUP_COMPLETE);
 
@@ -1421,6 +1428,9 @@ gdm_session_worker_authenticate_user (GdmSessionWorker *worker,
                                      get_friendly_error_message (worker, error_code));
                 goto out;
         }
+
+        gdm_session_worker_set_environment_variable (worker, GDM_AUTH_SESSION_ID, NULL);
+        unsetenv (GDM_AUTH_SESSION_ID);
 
         g_debug ("GdmSessionWorker: state AUTHENTICATED");
         gdm_session_worker_set_state (worker, GDM_SESSION_WORKER_STATE_AUTHENTICATED);
@@ -2974,6 +2984,8 @@ gdm_session_worker_handle_initialize (GdmDBusWorker         *object,
                         worker->display_is_local = g_variant_get_boolean (value);
                 } else if (g_strcmp0 (key, "display-is-initial") == 0) {
                         worker->display_is_initial = g_variant_get_boolean (value);
+                } else if (g_strcmp0 (key, "session-id-of-caller") == 0) {
+                        worker->session_id_of_caller = g_variant_dup_string (value, NULL);
                 }
         }
 
@@ -3125,6 +3137,7 @@ static ReauthenticationRequest *
 reauthentication_request_new (GdmSessionWorker      *worker,
                               GPid                   pid_of_caller,
                               uid_t                  uid_of_caller,
+                              const char            *session_id_of_caller,
                               GDBusMethodInvocation *invocation)
 {
         ReauthenticationRequest *request;
@@ -3145,6 +3158,9 @@ reauthentication_request_new (GdmSessionWorker      *worker,
                                             worker->display_seat_id,
                                             worker->display_is_local,
                                             environment);
+
+        if (session_id_of_caller != NULL && session_id_of_caller[0] != '\0')
+                g_object_set (request->session, "session-id-of-caller", session_id_of_caller, NULL);
 
         g_signal_connect (request->session,
                           "client-connected",
@@ -3184,7 +3200,8 @@ static gboolean
 gdm_session_worker_handle_start_reauthentication (GdmDBusWorker         *object,
                                                   GDBusMethodInvocation *invocation,
                                                   int                    pid_of_caller,
-                                                  int                    uid_of_caller)
+                                                  int                    uid_of_caller,
+                                                  const char            *session_id_of_caller)
 {
         GdmSessionWorker *worker = GDM_SESSION_WORKER (object);
         ReauthenticationRequest *request;
@@ -3200,7 +3217,11 @@ gdm_session_worker_handle_start_reauthentication (GdmDBusWorker         *object,
 
         g_debug ("GdmSessionWorker: start reauthentication");
 
-        request = reauthentication_request_new (worker, pid_of_caller, uid_of_caller, invocation);
+        request = reauthentication_request_new (worker,
+                                                pid_of_caller,
+                                                uid_of_caller,
+                                                session_id_of_caller,
+                                                invocation);
         g_hash_table_replace (worker->reauthentication_requests,
                               GINT_TO_POINTER (pid_of_caller),
                               request);
@@ -3381,6 +3402,7 @@ gdm_session_worker_finalize (GObject *object)
         g_free (worker->display_seat_id);
         g_free (worker->hostname);
         g_free (worker->username);
+        g_free (worker->session_id_of_caller);
         g_free (worker->server_address);
         g_strfreev (worker->arguments);
         g_strfreev (worker->extensions);
