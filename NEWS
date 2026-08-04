@@ -1,3 +1,33 @@
+51.beta
+=======
+
+* Fixed autologin bypass where a compromised greeter could request autologin
+  for any local account by sending arbitrary usernames via BeginAutoLogin
+* Dropped unused `enable-web-authentication` and `enable-passkey-authentication`
+  gsettings keys from the `org.gnome.login-screen` schema
+* Introduced PAM substack safety net, such that authentication cannot by bypassed
+  on systems where authselect hasn't configured a PAM service file for a specific
+  authentication method (i.e. `gdm-switchable-auth`)
+* Fixed double-free in session worker
+* Reworked build script for installing PAM service files into modern search path
+* Redid PAM service loading logic in GDM, to introduce meaningful error messages
+  whenever PAM services aren't found
+* Fixed memory leaks in PAM extensions
+* Fixed denial of service where an invalid session name from the greeter would
+  cause the entire daemon to exit, terminating all active sessions
+* Adjusted D-Bus object path generation for /org/gnome/DisplayManager/Displays/*
+  to fix ASLR leak
+* Fixed input sanitation when forwarding unknown usernames to audit subsystem
+* Fixed passphrase handling in pam_gdm to wipe cached plaintext passwords
+  before freeing and to bound the keyring buffer walk preventing out-of-bounds
+  reads
+* Fixed path traversal vulnerability where a compromised greeter could load
+  arbitrary .desktop files via SelectSession, potentially executing
+  attacker-controlled commands as the authenticated user
+* Introduced $GDM_AUTH_SESSION_ID environment variable, which communicates the
+  logind session ID of the caller that requested authentication. This will be used
+  for smartcard redirection for remote sessions
+
 51.alpha
 ========
 
