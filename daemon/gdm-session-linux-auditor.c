@@ -79,7 +79,8 @@ log_user_message (GdmSessionAuditor *auditor,
                                              buf, hostname, NULL, display_device,
                                              result);
         } else {
-                g_snprintf (buf, sizeof (buf), "acct=%s", username);
+                g_autofree char *enc = audit_encode_nv_string ("acct", username, 0);
+                g_strlcpy (buf, enc, sizeof (buf));
                 rc = audit_log_user_message (linux_auditor->audit_fd, type,
                                              buf, hostname, NULL, display_device,
                                              result);
