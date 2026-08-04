@@ -795,6 +795,7 @@ gdm_display_constructor (GType                  type,
                          guint                  n_construct_properties,
                          GObjectConstructParam *construct_properties)
 {
+        static guint64     serial = 1;
         GdmDisplay        *self;
         GdmDisplayPrivate *priv;
         gboolean           res;
@@ -806,8 +807,8 @@ gdm_display_constructor (GType                  type,
         priv = gdm_display_get_instance_private (self);
 
         g_free (priv->id);
-        priv->id = g_strdup_printf ("/org/gnome/DisplayManager/Displays/%lu",
-                                          (gulong) self);
+        priv->id = g_strdup_printf ("/org/gnome/DisplayManager/Displays/%" G_GUINT64_FORMAT,
+                                          serial++);
 
         res = register_display (self);
         if (! res) {
