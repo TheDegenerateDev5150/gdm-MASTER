@@ -28,6 +28,12 @@
 
           An optional hostname of the remote connection associated with the 
           to-be-created remote display.
+
+        * ``preauthenticated-user`` (``s``)
+
+          The username of an already authenticated user. A user session will be
+          created together with a remote display with the ``RemoteId`` property
+          set on the :ref:`org.gnome.DisplayManager.RemoteDisplay` object.
     -->
     <method name="CreateRemoteDisplay">
       <arg name="properties" direction="in" type="a{sv}"/>

@@ -85,6 +85,7 @@ handle_create_remote_display (GdmDBusRemoteDisplayFactory *skeleton,
 {
         g_autofree char *remote_id = NULL;
         g_autofree char *remote_hostname = NULL;
+        g_autofree char *preauthenticated_user = NULL;
 
         g_variant_lookup (properties, "remote-id", "o", &remote_id);
         if (!remote_id) {
@@ -96,8 +97,12 @@ handle_create_remote_display (GdmDBusRemoteDisplayFactory *skeleton,
         }
 
         g_variant_lookup (properties, "hostname", "s", &remote_hostname);
+        g_variant_lookup (properties, "preauthenticated-user", "s", &preauthenticated_user);
 
-        if (!gdm_remote_display_factory_create_display (factory, NULL, remote_id, remote_hostname))
+        if (!gdm_remote_display_factory_create_display (factory,
+                                                        preauthenticated_user,
+                                                        remote_id,
+                                                        remote_hostname))
                 g_dbus_method_invocation_return_error_literal (invocation,
                                                                G_DBUS_ERROR,
                                                                G_DBUS_ERROR_FAILED,
