@@ -1429,7 +1429,6 @@ gdm_session_worker_authenticate_user (GdmSessionWorker *worker,
                 goto out;
         }
 
-        gdm_session_worker_set_environment_variable (worker, GDM_AUTH_SESSION_ID, NULL);
         unsetenv (GDM_AUTH_SESSION_ID);
 
         g_debug ("GdmSessionWorker: state AUTHENTICATED");
