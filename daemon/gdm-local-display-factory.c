@@ -249,6 +249,9 @@ on_finish_waiting_for_seat0_displays_timeout (GdmLocalDisplayFactory *factory)
 {
         g_debug ("GdmLocalDisplayFactory: timeout following VT switch to registered session complete, looking for any background displays to kill");
         finish_waiting_displays_on_seat (factory, "seat0");
+
+        factory->wait_to_finish_timeout_id = 0;
+
         return G_SOURCE_REMOVE;
 }
 
