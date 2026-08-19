@@ -2181,6 +2181,8 @@ create_user_session_for_display (GdmManager *manager,
 
         g_free (remote_hostname);
         g_free (display_seat_id);
+        g_free (display_id);
+        g_free (display_device);
 
         g_signal_connect (session,
                           "reauthentication-started",
