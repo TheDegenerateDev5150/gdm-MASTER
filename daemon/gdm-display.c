@@ -990,6 +990,7 @@ gdm_display_finalize (GObject *object)
         g_debug ("GdmDisplay: Finalizing display: %s", priv->id);
         g_free (priv->id);
         g_free (priv->seat_id);
+        g_free (priv->session_id);
         g_free (priv->session_class);
         g_free (priv->remote_hostname);
 
