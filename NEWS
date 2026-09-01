@@ -1,3 +1,15 @@
+51.rc
+=====
+
+* Follow-up bugfix for $GDM_AUTH_SESSION_ID
+* Follow-up bugfix for redone PAM service loading logic
+* Follow-up bugfix for pam_gdm keyring buffer bounds check
+* Fixed a couple crashes and memory leaks
+* Introduced pre-authenticated remote displays, for Kerberos authentication
+  in gnome-remote-desktop
+* Updated Fedora's PAM rules to include support for oo7 instead of gnome-keyring
+* Translation updates
+
 51.beta
 =======
 
