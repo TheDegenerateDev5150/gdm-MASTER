@@ -65,11 +65,11 @@ gdm_pam_extension_message_to_pam_reply (void *msg)
 }
 
 static inline void
-gdm_pam_extension_message_to_binary_prompt_message (GdmPamExtensionMessage *extended_message,
-                                                    struct pam_message     *binary_message)
+gdm_pam_extension_message_to_binary_prompt_message (void               *extended_message,
+                                                    struct pam_message *binary_message)
 {
         binary_message->msg_style = PAM_BINARY_PROMPT;
-        binary_message->msg = (void *) extended_message;
+        binary_message->msg = extended_message;
 }
 
 static inline bool
