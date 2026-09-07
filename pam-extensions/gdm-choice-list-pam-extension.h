@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include <assert.h>
+
 #include "gdm-pam-extensions-common.h"
 
 typedef struct {
@@ -54,7 +56,12 @@ gdm_pam_extension_choice_list_request_init (GdmPamExtensionChoiceListRequest *re
                                             const char                       *title,
                                             int                               num_items)
 {
-        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST, &request->header.type);
+        bool type_found;
+
+        type_found = gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST,
+                                                     &request->header.type);
+        assert (type_found);
+
         request->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_REQUEST_SIZE(num_items));
         request->prompt_message = (char *) title;
         request->list.number_of_items = num_items;
@@ -65,7 +72,12 @@ gdm_pam_extension_choice_list_request_init (GdmPamExtensionChoiceListRequest *re
 static inline void
 gdm_pam_extension_choice_list_response_init (GdmPamExtensionChoiceListResponse *response)
 {
-        gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST, &response->header.type);
+        bool type_found;
+
+        type_found = gdm_pam_extension_look_up_type (GDM_PAM_EXTENSION_CHOICE_LIST,
+                                                     &response->header.type);
+        assert (type_found);
+
         response->header.length = htobe32 (GDM_PAM_EXTENSION_CHOICE_LIST_RESPONSE_SIZE);
         response->key = NULL;
 }
