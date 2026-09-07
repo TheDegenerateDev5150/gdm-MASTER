@@ -2,7 +2,7 @@
 # Norwegian (nynorsk) translation of gdm.
 # Copyright (C) 2001 Roy-Magne Mo
 # Kjartan Maraas  <kmaraas@gnome.org>, 2001.
-# Roy-Magne Mo <rmo@sunnmore.net>, 2001.
+# Roy-Magne Mo <rmo@sunnmore.net>, 2001, 2026.
 # Åsmund Skjæveland <aasmunds@fys.uio.no>, 2003, 2004, 2005, 2006.
 # Åsmund Skjæveland <aasmunds@ulrik.uio.no>, 2009, 2010, 2011.
 # Torstein Adolf Winterseth <kvikende@yahoo.no>, 2009.
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gdm/issues/\n"
-"POT-Creation-Date: 2025-08-11 09:59+0000\n"
-"PO-Revision-Date: 2025-08-12 19:07+0200\n"
-"Last-Translator: Sunniva Løvstad <sunniva@turtle.garden>\n"
+"POT-Creation-Date: 2026-08-19 08:35+0000\n"
+"PO-Revision-Date: 2026-09-05 20:07+0200\n"
+"Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norsk (nynorsk) <i18n-nn@lister.ping.uio.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
@@ -22,134 +22,41 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: chooser/gdm-host-chooser-dialog.c:139
-msgid "_Refresh"
-msgstr "_Last inn på nytt"
-
-#: chooser/gdm-host-chooser-dialog.c:140
-msgid "_Cancel"
-msgstr "_Avbryt"
-
-#: chooser/gdm-host-chooser-dialog.c:141
-msgid "C_onnect"
-msgstr "_Kople til"
-
-#: chooser/gdm-host-chooser-dialog.c:146
-msgid "Select System"
-msgstr "Vel system"
-
-#: chooser/gdm-host-chooser-widget.c:255
-msgid "XDMCP: Could not create XDMCP buffer!"
-msgstr "XDMCP: Klarte ikkje laga XDMCP-mellomlager!"
-
-#: chooser/gdm-host-chooser-widget.c:261
-msgid "XDMCP: Could not read XDMCP header!"
-msgstr "XDMCP: Klarte ikkje lesa XDMCP-hovud!"
-
-#: chooser/gdm-host-chooser-widget.c:267
-msgid "XDMCP: Incorrect XDMCP version!"
-msgstr "XDMCP: Feil XDMCP-utgåve!"
-
-#: chooser/gdm-host-chooser-widget.c:273
-msgid "XDMCP: Unable to parse address"
-msgstr "XDMCP: Klarte ikkje å tolka adressa"
-
-#: common/gdm-common.c:343
+#: common/gdm-common.c:324
 msgid "/dev/urandom is not a character device"
 msgstr "/dev/urandom er ikkje ei teikn-eining"
 
-#: common/gdm-common.c:382
+#: common/gdm-common.c:358
 msgid "Unable to create transient display: "
 msgstr "Klarte ikkje starte mellombels skjerm: "
 
-#: common/gdm-common.c:579
+#: common/gdm-common.c:555
 msgid "Could not identify the current session: "
 msgstr "Klarte ikkje identifisere den noverande økta: "
 
-#: common/gdm-common.c:588
+#: common/gdm-common.c:564
 msgid "Could not identify the current seat."
 msgstr "Klarte ikkje identifisere det noverande setet."
 
-#: daemon/gdm-display-access-file.c:280 daemon/gdm-display-access-file.c:301
-#, c-format
-msgid "Could not find user “%s” on system"
-msgstr "Klarte ikkje finna brukaren «%s» på systemet"
-
-#: daemon/gdm-legacy-display.c:226
-msgid ""
-"Could not start the X server (your graphical environment) due to an internal "
-"error. Please contact your system administrator or check your syslog to "
-"diagnose. In the meantime this display will be disabled.  Please restart GDM "
-"when the problem is corrected."
-msgstr ""
-"Klarte ikkje starta X-tenaren (det grafiske miljøet) på grunn av ein intern "
-"feil. Kontakt systemansvarleg eller kontroller systemloggen for å finne ut "
-"kva som er feil. I mellomtida vil denne skjermen verte slegen av. Start GDM "
-"på nytt når feilen er retta."
-
-#: daemon/gdm-manager.c:764
+#: daemon/gdm-manager.c:684 daemon/gdm-manager.c:720
 msgid "No display available"
 msgstr "Ingen skjerm tilgjengeleg"
 
-#: daemon/gdm-manager.c:862 daemon/gdm-manager.c:1191
+#: daemon/gdm-manager.c:787 daemon/gdm-manager.c:1094
 msgid "No session available"
 msgstr "Ingen økt tilgjengeleg"
 
-#: daemon/gdm-manager.c:881
-msgid "Chooser session unavailable"
-msgstr "Veljingsøkt utilgjengeleg"
-
-#: daemon/gdm-manager.c:897
+#: daemon/gdm-manager.c:803
 msgid "Can only be called before user is logged in"
 msgstr "Kan berre kallast før brukaren er innlogga"
 
-#: daemon/gdm-manager.c:909
+#: daemon/gdm-manager.c:815
 msgid "Caller not GDM"
 msgstr "Kallar er ikkje GDM"
 
-#: daemon/gdm-manager.c:919
+#: daemon/gdm-manager.c:825
 msgid "Unable to open private communication channel"
 msgstr "Klarte ikkje opne privat kommunikasjonskanal"
-
-#: daemon/gdm-server.c:387
-#, c-format
-msgid "Server was to be spawned by user %s but that user doesn’t exist"
-msgstr "Tenaren skulle startast av brukar %s, men den brukaren finst ikkje"
-
-#: daemon/gdm-server.c:398 daemon/gdm-server.c:418
-#, c-format
-msgid "Couldn’t set groupid to %d"
-msgstr "Klarte ikkje setja groupid til %d"
-
-#: daemon/gdm-server.c:404
-#, c-format
-msgid "initgroups () failed for %s"
-msgstr "initgroups () feila for %s"
-
-#: daemon/gdm-server.c:410
-#, c-format
-msgid "Couldn’t set userid to %d"
-msgstr "Klarte ikkje setja brukarid til %d"
-
-#: daemon/gdm-server.c:482
-#, c-format
-msgid "%s: Could not open log file for display %s!"
-msgstr "%s: Klarte ikkje opne loggfila for skjerm %s!"
-
-#: daemon/gdm-server.c:503 daemon/gdm-server.c:509 daemon/gdm-server.c:515
-#, c-format
-msgid "%s: Error setting %s to %s"
-msgstr "%s: Feil ved setjing av %s til %s"
-
-#: daemon/gdm-server.c:535
-#, c-format
-msgid "%s: Server priority couldn’t be set to %d: %s"
-msgstr "%s: Klarte ikkje setja tenarprioritet til %d: %s"
-
-#: daemon/gdm-server.c:690
-#, c-format
-msgid "%s: Empty server command for display %s"
-msgstr "%s: Tom tenarkommando for skjerm %s"
 
 #: daemon/gdm-session-auditor.c:88
 msgid "Username"
@@ -175,11 +82,11 @@ msgstr "Display-eining"
 msgid "The display device"
 msgstr "Display-eininga"
 
-#: daemon/gdm-session.c:1444
+#: daemon/gdm-session.c:1464
 msgid "Could not create authentication helper process"
 msgstr "Klarte ikkje starte autentiseringshjelparprosess"
 
-#: daemon/gdm-session-worker.c:813
+#: daemon/gdm-session-worker.c:819
 msgid ""
 "You reached the maximum password authentication attempts, please try another "
 "method"
@@ -187,7 +94,7 @@ msgstr ""
 "Du har nådd det maksimale talet på forsøk på passordautentisering, venlegast "
 "prøv ein annan metode"
 
-#: daemon/gdm-session-worker.c:816
+#: daemon/gdm-session-worker.c:822
 msgid ""
 "You reached the maximum auto login attempts, please try another "
 "authentication method"
@@ -195,7 +102,7 @@ msgstr ""
 "Du har nådd det maksimale talet på forsøk på sjølvverkande innlogging, "
 "venlegast prøv ein annan metode"
 
-#: daemon/gdm-session-worker.c:819
+#: daemon/gdm-session-worker.c:825
 msgid ""
 "You reached the maximum fingerprint authentication attempts, please try "
 "another method"
@@ -203,7 +110,7 @@ msgstr ""
 "Du har nådd det maksimale talet på forsøk på fingeravtrykksautentisering, "
 "venlegast prøv ein annan metode"
 
-#: daemon/gdm-session-worker.c:822
+#: daemon/gdm-session-worker.c:828
 msgid ""
 "You reached the maximum smart card authentication attempts, please try "
 "another method"
@@ -211,113 +118,76 @@ msgstr ""
 "Du har nådd det maksimale talet på forsøk på smartkortautentisering, "
 "venlegast prøv ein annan metode"
 
-#: daemon/gdm-session-worker.c:824
+#: daemon/gdm-session-worker.c:830
 msgid ""
 "You reached the maximum authentication attempts, please try another method"
 msgstr ""
 "Du har nådd det maksimale talet på forsøk på autentisering, venlegast prøv "
 "ein annan metode"
 
-#: daemon/gdm-session-worker.c:831
+#: daemon/gdm-session-worker.c:837
 msgid "Sorry, password authentication didn’t work. Please try again."
 msgstr "Orsak, passordautentisering gjekk ikkje. Venlegast prøv att."
 
-#: daemon/gdm-session-worker.c:834
+#: daemon/gdm-session-worker.c:840
 msgid "Sorry, auto login didn’t work. Please try again."
 msgstr "Orsak, sjølvverkande innlogging gjekk ikkje. Venlegast prøv att."
 
-#: daemon/gdm-session-worker.c:837
+#: daemon/gdm-session-worker.c:843
 msgid "Sorry, fingerprint authentication didn’t work. Please try again."
 msgstr "Orsak, fingeravtrykksautentisering gjekk ikkje. Venlegast prøv att."
 
-#: daemon/gdm-session-worker.c:840
+#: daemon/gdm-session-worker.c:846
 msgid "Sorry, smart card authentication didn’t work. Please try again."
 msgstr "Orsak,smartkortautentisering gjekk ikkje. Venlegast prøv att."
 
-#: daemon/gdm-session-worker.c:842
+#: daemon/gdm-session-worker.c:848
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Orsak, det gjekk ikkje. Venlegast prøv att."
 
-#: daemon/gdm-session-worker.c:857
+#: daemon/gdm-session-worker.c:863
 msgid "Your account was given a time limit that’s now passed."
 msgstr "Kontoen din vart gjeven ei tidsavgrensing som no har gått forbi."
 
-#: daemon/gdm-session-worker.c:1258
+#: daemon/gdm-session-worker.c:1297
 msgid "Username:"
 msgstr "Brukarnamn:"
 
-#: daemon/gdm-session-worker.c:1675 daemon/gdm-session-worker.c:1692
+#: daemon/gdm-session-worker.c:1723 daemon/gdm-session-worker.c:1740
 msgid "no user account available"
 msgstr "ingen brukarkonto tilgjengeleg"
 
-#: daemon/gdm-session-worker.c:1719
+#: daemon/gdm-session-worker.c:1767
 msgid "Unable to change to user"
 msgstr "Klarte ikkje å byte til brukar"
 
-#: daemon/gdm-wayland-session.c:531
-#, fuzzy
+#: daemon/gdm-wayland-session.c:513
 msgid "GNOME Display Manager Wayland Session Launcher"
-msgstr "GNOME Display Manager Wayland-øktstartar"
+msgstr "Wayland-starter for GNOME Display Manager"
 
-#: daemon/gdm-xdmcp-display-factory.c:614
-msgid "Could not create socket!"
-msgstr "Klarte ikkje laga sokkel!"
-
-#: daemon/gdm-x-session.c:882
-#, fuzzy
-msgid "Run program through /etc/gdm/Xsession wrapper script"
-msgstr "Køyr program gjennom /etc/gdm/Xsession-omslagsskriptet"
-
-#: daemon/gdm-x-session.c:883
-msgid "Listen on TCP socket"
-msgstr "Lytt på TCP-sokkel"
-
-#: daemon/gdm-x-session.c:895
-#, fuzzy
-msgid "GNOME Display Manager X Session Launcher"
-msgstr "GNOME Display Manager X-øktstartar"
-
-#: daemon/main.c:125 daemon/main.c:138
+#: daemon/main.c:124 daemon/main.c:137
 #, c-format
 msgid "Cannot write PID file %s: possibly out of disk space: %s"
 msgstr "Klarte ikkje skrive PID-fila %s. Kanskje disken er full: %s"
 
-#: daemon/main.c:221
-#, c-format
-msgid "Can’t find the GDM user “%s”. Aborting!"
-msgstr "Klarte ikkje finne GDM-brukaren «%s». Stoppar!"
-
-#: daemon/main.c:227
-msgid "The GDM user should not be root. Aborting!"
-msgstr "GDM-brukaren skal ikkje vera rotbrukaren. Stoppar!"
-
-#: daemon/main.c:233
-#, c-format
-msgid "Can’t find the GDM group “%s”. Aborting!"
-msgstr "Klarte ikkje finne GDM-gruppa «%s». Stoppar!"
-
-#: daemon/main.c:239
-msgid "The GDM group should not be root. Aborting!"
-msgstr "GDM-gruppa skal ikkje vera rotgruppa. Stoppar!"
-
-#: daemon/main.c:307
+#: daemon/main.c:222
 msgid "Make all warnings fatal"
 msgstr "Gjer alle åtvaringar fatale"
 
-#: daemon/main.c:308
+#: daemon/main.c:223
 msgid "Exit after a time (for debugging)"
 msgstr "Avslutt etter ei tid (for feilsøking)"
 
-#: daemon/main.c:309
+#: daemon/main.c:224
 msgid "Print GDM version"
 msgstr "Skriv GDM-versjon"
 
-#: daemon/main.c:320
+#: daemon/main.c:235
 msgid "GNOME Display Manager"
 msgstr "GNOME displayhandsamar"
 
 #. make sure the pid file doesn't get wiped
-#: daemon/main.c:340
+#: daemon/main.c:255
 msgid "Only the root user can run GDM"
 msgstr "Det er berre root som skal starta GDM"
 
@@ -327,11 +197,49 @@ msgstr "Det er berre root som skal starta GDM"
 msgid "GNOME Display Manager Session Worker"
 msgstr "GNOME Display Manager øktarbeidar"
 
+#: data/gnome-greeter.desktop.in:2
+msgid "GNOME Greeter"
+msgstr "GNOME velkomst"
+
+#: data/gnome-greeter.desktop.in:3
+msgid "The default GNOME Greeter session"
+msgstr "Standard GNOME Greeter-økt"
+
+#: data/gnome-initial-setup.desktop.in:2
+msgid "GNOME Initial Setup"
+msgstr "GNOME første oppsett"
+
+#: data/gnome-initial-setup.desktop.in:3
+msgid "The GNOME Initial Setup session"
+msgstr "Økt for første oppsett av GNOME"
+
+#: data/org.gnome.displaymanager.policy:11
+msgid "Allow managing user sessions"
+msgstr "Tillat å handtera brukarøkter"
+
+#: data/org.gnome.displaymanager.policy:12
+msgid "Authentication is required to start or stop a user session"
+msgstr "Authentication er nødvendig for å starte eller stoppe ei brukarøkt"
+
 #: data/org.gnome.login-screen.gschema.xml:11
+#| msgid "Whether or not to allow smartcard readers for login"
+msgid "Whether or not to allow switchable authentication for login"
+msgstr "Om du skal tillata at du kan skifta mellom ulike måtar å logga inn på"
+
+#: data/org.gnome.login-screen.gschema.xml:14
+#| msgid ""
+#| "The login screen can optionally show a small image to provide site "
+#| "administrators and distributions a way to display branding."
+msgid ""
+"The login screen can optionally allow a single PAM service to provide "
+"multiple authentication mechanisms via a GDM PAM."
+msgstr "Innloggingsskjermen kan valfritt tillate ei enkelt PAM-teneste å tilby fleire autentiseringsmekanismar via ein GDM PAM."
+
+#: data/org.gnome.login-screen.gschema.xml:21
 msgid "Whether or not to allow fingerprint readers for login"
 msgstr "Styrar om fingeravtrykkslesarar skal vera tillatne for innlogging"
 
-#: data/org.gnome.login-screen.gschema.xml:14
+#: data/org.gnome.login-screen.gschema.xml:24
 msgid ""
 "The login screen can optionally allow users who have enrolled their "
 "fingerprints to log in using those prints."
@@ -339,11 +247,11 @@ msgstr ""
 "Innloggingsskjermen kan valfritt tillata brukarar som har lagt inn "
 "fingeravtrykka sine å logge inn med dei fingeravtrykka."
 
-#: data/org.gnome.login-screen.gschema.xml:21
+#: data/org.gnome.login-screen.gschema.xml:31
 msgid "Whether or not to allow smartcard readers for login"
 msgstr "Styrar om smartkortlesarar skal vera tillatne for innlogging"
 
-#: data/org.gnome.login-screen.gschema.xml:24
+#: data/org.gnome.login-screen.gschema.xml:34
 msgid ""
 "The login screen can optionally allow users who have smartcards to log in "
 "using those smartcards."
@@ -351,11 +259,11 @@ msgstr ""
 "Innloggingsskjermen kan valfritt tillata brukarar som har lagt inn "
 "smartkorta sine å logge inn med dei smartkorta."
 
-#: data/org.gnome.login-screen.gschema.xml:31
+#: data/org.gnome.login-screen.gschema.xml:41
 msgid "Whether or not to allow passwords for login"
 msgstr "Styrar om passord skal vera tillatne for innlogging"
 
-#: data/org.gnome.login-screen.gschema.xml:34
+#: data/org.gnome.login-screen.gschema.xml:44
 msgid ""
 "The login screen can be configured to disallow password authentication, "
 "forcing the user to use smartcard or fingerprint authentication."
@@ -363,25 +271,16 @@ msgstr ""
 "Innloggingsskjermen kan setjast opp for å forbyde passordautentisering, som "
 "tvingar brukaren til å nytte smartkort- eller fingeravtrykksautentisering."
 
-#: data/org.gnome.login-screen.gschema.xml:41
 #: data/org.gnome.login-screen.gschema.xml:51
 msgid "Path to small image at top of user list"
 msgstr "Sti til lite bilete øvst på brukarlista"
 
-#: data/org.gnome.login-screen.gschema.xml:44
+#: data/org.gnome.login-screen.gschema.xml:54
 msgid ""
 "The login screen can optionally show a small image to provide site "
 "administrators and distributions a way to display branding."
 msgstr ""
 "Innloggingsskjermen kan valfritt syne eit lite bilete for å tillata "
-"administratorar og distribusjonar å syne varemerket sitt."
-
-#: data/org.gnome.login-screen.gschema.xml:54
-msgid ""
-"The fallback login screen can optionally show a small image to provide site "
-"administrators and distributions a way to display branding."
-msgstr ""
-"Reserveinnloggingsskjermen kan valfritt syne eit lite bilete for å tillata "
 "administratorar og distribusjonar å syne varemerket sitt."
 
 #: data/org.gnome.login-screen.gschema.xml:61
@@ -573,19 +472,14 @@ msgid "Distro hook “%s” requested stopping"
 msgstr "Distrobusjonskopling «%s» spurde om å stoppe"
 
 #: utils/gdm-config.c:683
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Distro hook failed with exit status %d and error %s:\n"
 "Standard output:\n"
 "%s\n"
 "Error output:\n"
 "%s"
-msgstr ""
-"Distribusjonskopling mislukkast med avsluttingsstatus %d og feil %s:\n"
-"Standardutdata:\n"
-"%s\n"
-"Feilutdata:\n"
-"%s"
+msgstr "Distro-hook mislyktes med avslutningsstatus %d og feil %s:\nStandard output:\n%s\nFeil output:\n%s"
 
 #. TRANSLATORS: Failed to set command “command” option key “option-key” via distro hook
 #: utils/gdm-config.c:733
@@ -624,15 +518,15 @@ msgstr "Fil «%s»-overskriftskommentaren samsvarar ikkje, vart ho endra?"
 msgid "No expected header found on lock file “%s”, was it modified?"
 msgstr "Inga forventa overskrift funnen på låsfil «%s», vart ho endra?"
 
-#: utils/gdm-config.c:1499
+#: utils/gdm-config.c:1509
 msgid "Failed to run a required distro hook: "
 msgstr "Klarte ikkje køyre påkravd distribusjonskopling: "
 
-#: utils/gdm-config.c:1515 utils/gdmflexiserver.c:45
+#: utils/gdm-config.c:1525
 msgid "COMMAND"
 msgstr "KOMMANDO"
 
-#: utils/gdm-config.c:1519
+#: utils/gdm-config.c:1529
 #, c-format
 msgid ""
 "Commands:\n"
@@ -644,57 +538,48 @@ msgid ""
 "  show         Shows the current configuration\n"
 "\n"
 "Use “%s COMMAND --help” to get help on each command.\n"
-msgstr ""
-"Kommandoar:\r\n"
-"  help         Syner desse opplysingane\r\n"
-"  password     Konfigurer passordautentiseringa\r\n"
-"  fingerprint  Konfigurer fingeravtrykksautentiseringa\r\n"
-"  smartcard    Konfigurer smartkortautentiseringa\r\n"
-"  reset        Nullstiller standardkonfigureringa\r\n"
-"  show         Syner den noverande konfigureringa\r\n"
-"\r\n"
-"Nytt «%s KOMMANDO --help» for å få hjelp på kvar kommando.\r\n"
+msgstr "Kommandoar:\r\n  help         Syner desse opplysingane\r\n  password     Konfigurer passordautentiseringa\r\n  fingerprint  Konfigurer fingeravtrykksautentiseringa\r\n  smartcard    Konfigurer smartkortautentiseringa\r\n  reset        Nullstiller standardkonfigureringa\r\n  show         Syner den noverande konfigureringa\r\n\r\nNytt «%s KOMMANDO --help» for å få hjelp på kvar kommando.\n"
 
-#: utils/gdm-config.c:1581
+#: utils/gdm-config.c:1591
 msgid "Command options"
 msgstr "Kommandoval"
 
 #. TRANSLATORS: You need to be root to use PROGRAM-NAME “command” command
-#: utils/gdm-config.c:1616
+#: utils/gdm-config.c:1626
 #, c-format
 msgid "You need to be root to use %s “%s” command"
 msgstr "Du lyt vera rotbrukaren for å nytte %s «%s»-kommandoen"
 
-#: utils/gdm-config.c:1666
+#: utils/gdm-config.c:1676
 #, c-format
 msgid "Failed to set %s setting: "
 msgstr "Klarte ikkje stille inn %s-innstillinga: "
 
-#: utils/gdm-config.c:1758
+#: utils/gdm-config.c:1768
 msgid "Failed to set smartcard setting"
 msgstr "Mislukkast i å stille inn smartkortinnstillinga"
 
-#: utils/gdm-config.c:1764
+#: utils/gdm-config.c:1774
 msgid "Failed to set password setting"
 msgstr "Mislukkast i å stille inn passordinnstillinga"
 
-#: utils/gdm-config.c:1778
+#: utils/gdm-config.c:1788
 msgid "Enabled"
 msgstr "Påslegen"
 
-#: utils/gdm-config.c:1778
+#: utils/gdm-config.c:1788
 msgid "Disabled"
 msgstr "Avslegen"
 
-#: utils/gdm-config.c:1787
+#: utils/gdm-config.c:1797
 msgid "Not supported"
 msgstr "Ikkje stødd"
 
-#: utils/gdm-config.c:1803
+#: utils/gdm-config.c:1813
 msgid "Required"
 msgstr "Påkravd"
 
-#: utils/gdm-config.c:1855
+#: utils/gdm-config.c:1865
 #, c-format
 msgid ""
 "GDM Authorization configuration\n"
@@ -703,69 +588,165 @@ msgid ""
 "  Fingerprint authentication: %s\n"
 "  Smart Card authentication: %s\n"
 "  Smart Card removal action: %s\n"
-msgstr ""
-"GDM-autentiseringskonfigurering\r\n"
-"\r\n"
-"  Passordautentisering: %s\r\n"
-"  Fingeravtrykksautentisering: %s\r\n"
-"  Smartkortautentisering: %s\r\n"
-"  Handling ved fjerning av smartkort: %s\r\n"
+msgstr "GDM-autentiseringskonfigurering\r\n\r\n  Passordautentisering: %s\r\n  Fingeravtrykksautentisering: %s\r\n  Smartkortautentisering: %s\r\n  Handling ved fjerning av smartkort: %s\n"
 
-#: utils/gdm-config.c:1883
+#: utils/gdm-config.c:1893
 msgctxt "Interactive question"
 msgid "Y"
 msgstr "J"
 
-#: utils/gdm-config.c:1884
+#: utils/gdm-config.c:1894
 msgctxt "Interactive question"
 msgid "y"
 msgstr "j"
 
-#: utils/gdm-config.c:1885
+#: utils/gdm-config.c:1895
 msgctxt "Interactive question"
 msgid "N"
 msgstr "N"
 
-#: utils/gdm-config.c:1886
+#: utils/gdm-config.c:1896
 msgctxt "Interactive question"
 msgid "n"
 msgstr "n"
 
-#: utils/gdm-config.c:1890
+#: utils/gdm-config.c:1900
 msgctxt "Interactive question"
 msgid "Do you want to continue? [Y/n]? "
 msgstr "Vil du halde fram? [J/n]? "
 
-#: utils/gdm-config.c:1908
+#: utils/gdm-config.c:1918
 msgid "User cancelled the request"
 msgstr "Brukar avbraut førespurnaden"
 
-#: utils/gdm-config.c:1939
+#: utils/gdm-config.c:1949
 #, c-format
 msgid "Failed to reset %s setting: "
 msgstr "Klarte ikkje nullstille %s-innstillinga: "
 
-#: utils/gdmflexiserver.c:45
-msgid "Only the VERSION command is supported"
-msgstr "Berre VERSION-kommandoen er stødd"
+#~ msgid "_Refresh"
+#~ msgstr "_Last inn på nytt"
 
-#: utils/gdmflexiserver.c:46 utils/gdmflexiserver.c:47
-#: utils/gdmflexiserver.c:49 utils/gdmflexiserver.c:50
-msgid "Ignored — retained for compatibility"
-msgstr "Ignorert ­— teke med av kompatibilitetsomsyn"
+#~ msgid "_Cancel"
+#~ msgstr "_Avbryt"
 
-#: utils/gdmflexiserver.c:48
-msgid "Debugging output"
-msgstr "Utdata frå feilsøking"
+#~ msgid "C_onnect"
+#~ msgstr "_Kople til"
 
-#: utils/gdmflexiserver.c:52
-msgid "Version of this application"
-msgstr "Utgåva av dette programmet"
+#~ msgid "Select System"
+#~ msgstr "Vel system"
 
-#. Option parsing
-#: utils/gdmflexiserver.c:137
-msgid "— New GDM login"
-msgstr "— Ny GDM-innlogging"
+#~ msgid "XDMCP: Could not create XDMCP buffer!"
+#~ msgstr "XDMCP: Klarte ikkje laga XDMCP-mellomlager!"
+
+#~ msgid "XDMCP: Could not read XDMCP header!"
+#~ msgstr "XDMCP: Klarte ikkje lesa XDMCP-hovud!"
+
+#~ msgid "XDMCP: Incorrect XDMCP version!"
+#~ msgstr "XDMCP: Feil XDMCP-utgåve!"
+
+#~ msgid "XDMCP: Unable to parse address"
+#~ msgstr "XDMCP: Klarte ikkje å tolka adressa"
+
+#, c-format
+#~ msgid "Could not find user “%s” on system"
+#~ msgstr "Klarte ikkje finna brukaren «%s» på systemet"
+
+#~ msgid ""
+#~ "Could not start the X server (your graphical environment) due to an "
+#~ "internal error. Please contact your system administrator or check your "
+#~ "syslog to diagnose. In the meantime this display will be disabled.  "
+#~ "Please restart GDM when the problem is corrected."
+#~ msgstr ""
+#~ "Klarte ikkje starta X-tenaren (det grafiske miljøet) på grunn av ein "
+#~ "intern feil. Kontakt systemansvarleg eller kontroller systemloggen for å "
+#~ "finne ut kva som er feil. I mellomtida vil denne skjermen verte slegen "
+#~ "av. Start GDM på nytt når feilen er retta."
+
+#~ msgid "Chooser session unavailable"
+#~ msgstr "Veljingsøkt utilgjengeleg"
+
+#, c-format
+#~ msgid "Server was to be spawned by user %s but that user doesn’t exist"
+#~ msgstr "Tenaren skulle startast av brukar %s, men den brukaren finst ikkje"
+
+#, c-format
+#~ msgid "Couldn’t set groupid to %d"
+#~ msgstr "Klarte ikkje setja groupid til %d"
+
+#, c-format
+#~ msgid "initgroups () failed for %s"
+#~ msgstr "initgroups () feila for %s"
+
+#, c-format
+#~ msgid "Couldn’t set userid to %d"
+#~ msgstr "Klarte ikkje setja brukarid til %d"
+
+#, c-format
+#~ msgid "%s: Could not open log file for display %s!"
+#~ msgstr "%s: Klarte ikkje opne loggfila for skjerm %s!"
+
+#, c-format
+#~ msgid "%s: Error setting %s to %s"
+#~ msgstr "%s: Feil ved setjing av %s til %s"
+
+#, c-format
+#~ msgid "%s: Server priority couldn’t be set to %d: %s"
+#~ msgstr "%s: Klarte ikkje setja tenarprioritet til %d: %s"
+
+#, c-format
+#~ msgid "%s: Empty server command for display %s"
+#~ msgstr "%s: Tom tenarkommando for skjerm %s"
+
+#~ msgid "Could not create socket!"
+#~ msgstr "Klarte ikkje laga sokkel!"
+
+#, fuzzy
+#~ msgid "Run program through /etc/gdm/Xsession wrapper script"
+#~ msgstr "Køyr program gjennom /etc/gdm/Xsession-omslagsskriptet"
+
+#~ msgid "Listen on TCP socket"
+#~ msgstr "Lytt på TCP-sokkel"
+
+#, fuzzy
+#~ msgid "GNOME Display Manager X Session Launcher"
+#~ msgstr "GNOME Display Manager X-øktstartar"
+
+#, c-format
+#~ msgid "Can’t find the GDM user “%s”. Aborting!"
+#~ msgstr "Klarte ikkje finne GDM-brukaren «%s». Stoppar!"
+
+#~ msgid "The GDM user should not be root. Aborting!"
+#~ msgstr "GDM-brukaren skal ikkje vera rotbrukaren. Stoppar!"
+
+#, c-format
+#~ msgid "Can’t find the GDM group “%s”. Aborting!"
+#~ msgstr "Klarte ikkje finne GDM-gruppa «%s». Stoppar!"
+
+#~ msgid "The GDM group should not be root. Aborting!"
+#~ msgstr "GDM-gruppa skal ikkje vera rotgruppa. Stoppar!"
+
+#~ msgid ""
+#~ "The fallback login screen can optionally show a small image to provide "
+#~ "site administrators and distributions a way to display branding."
+#~ msgstr ""
+#~ "Reserveinnloggingsskjermen kan valfritt syne eit lite bilete for å "
+#~ "tillata administratorar og distribusjonar å syne varemerket sitt."
+
+#~ msgid "Only the VERSION command is supported"
+#~ msgstr "Berre VERSION-kommandoen er stødd"
+
+#~ msgid "Ignored — retained for compatibility"
+#~ msgstr "Ignorert ­— teke med av kompatibilitetsomsyn"
+
+#~ msgid "Debugging output"
+#~ msgstr "Utdata frå feilsøking"
+
+#~ msgid "Version of this application"
+#~ msgstr "Utgåva av dette programmet"
+
+#~ msgid "— New GDM login"
+#~ msgstr "— Ny GDM-innlogging"
 
 #, fuzzy
 #~ msgid "Your password has expired, please change it now."
